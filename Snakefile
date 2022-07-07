@@ -8,6 +8,10 @@
 # is an '.h5ad' file. In snakemake, it is good practice to write data files
 # produced by each rule to unique directories.
 # allowable: paul, moignard, pbmc3k
+
+rule all:
+    'data/processed/pbmc3k.h5ad'
+
 rule download_data:
     params:
         dataset = 'pbmc3k'
@@ -21,13 +25,21 @@ rule download_data:
 # of provided parameters as explained in the github issue. The rule should write
 # the newly processed data to a new `.h5ad` file. 
 rule preprocess_data:
-
+    params:
+        min_cells = '3',
+        min_genes = '200',
+        pct_mito = '5',
+        n_hvgs = '2000'
+    input:
+        infile = 'pbmc3k.h5ad'
+    output:
+        out = 'data/processed/pbmc3k.h5ad'
 
 # This rule should cluster cells using the `cluster_cells.py` script.
 # rule should read in preprocessed data, and clsuter cells according to user-
 # provided parameters, k and resolution. The rule should produce 3 output files
 # as csvs: a count matrix, a cell metadata table, and a gene metadata table.
-rule cluster_cells:
+# rule cluster_cells:
 
 
 # This rule should plot clusters on UMAP projections using ggplot and the 

@@ -59,8 +59,8 @@ if __name__ == '__main__':
         snakemake = None
     if snakemake is not None:
         # read in data
-        adata = sc.read()
+        adata = sc.read(snakemake.params["min_cells","min_genes", "pct_mito", "n_hvgs"])
         # preprocess cells + genes
         out = preprocess_cells(adata)
         # write processed data to h5ad file
-        adata.write()
+        adata.write(snakemake.output['out'])
